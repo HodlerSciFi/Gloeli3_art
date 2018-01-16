@@ -1,7 +1,13 @@
 //import gifAnimation.*;
 //GifMaker gifExport;
- PImage lightBall;
- 
+PImage lightBall;
+float x = 0.0;
+float y = 0.0;
+float z = 0.0;
+float lastx = 0.0;
+float lasty = 0.0;
+float lastz = 0.0;
+
 void setup() {
   size(500, 500, P3D);
   // zテストを無効化
@@ -32,7 +38,7 @@ void draw() {
     float radianS = radians(s);
     //0 <= s <= 180より-1 <= cos(radianS) <= 1
     //よってzは-radius <= z <= radius
-    float z = radius * cos(radianS); //これだけだとz座標上に半径と同じ長さの点をプロットするだけで円筒になる
+    z = radius * cos(radianS); //これだけだとz座標上に半径と同じ長さの点をプロットするだけで円筒になる
     //円状に点を描写(x-y)
     for (int t = 0; t < 360; t += 10) {
       //角度をラジアンに
@@ -41,14 +47,24 @@ void draw() {
       //sin(radianS)は0->1->0の順で変化するので
       //radius * sin(radianS)は0->200->0
       //はじめのfor文でz軸方向に移動した分、sin(radianS)で補正をかける
-      float x = radius * cos(radianT) * sin(radianS);
-      float y = radius * sin(radianT)  * sin(radianS);
+      x = radius * cos(radianT) * sin(radianS);
+      y = radius * sin(radianT)  * sin(radianS);
 
-      //点を描写
-      //stroke(0, 128, 128);
-      //strokeWeight(8);
-      noStroke();
-      //point(x, y, z);
+      //線を描画
+      stroke(0, 128, 128);
+      strokeWeight(sin(radianS)* 4);
+      //noStroke();
+      if (lastx == 0 && lasty ==0 && lastz == 0 ) {
+        lastx = x;
+        lasty = y;
+        lastz = z;
+      } else {
+        line(x, y, z, lastx, lasty, lastz);
+        lastx = x;
+        lasty = y;
+        lastz = z;
+      }
+
       //現在の座標を保存
       pushMatrix();
       // 画像の座標へ原点を移動
@@ -60,15 +76,16 @@ void draw() {
       image(lightBall, 0, 0);
       //保存した座標を再展開
       popMatrix();
-      
-      //beginShape();
-      //texture(lightBall);
-      //vertex(-x, -y, z, 0, 0);
-      //vertex( x, -y, z, 1, 0);
-      //vertex( x, y, z, 1, 1);
-      //vertex(-x, y, z, 0, 1);
-      //endShape();
     }
+    
+    //円の最初と最後の発光球体をつなぐ線
+     x = radius * cos(0) * sin(radianS);
+     y = radius * sin(0)  * sin(radianS);
+     line(x, y, z, lastx, lasty, lastz);
+    //初期化
+    lastx = 0.0;
+    lasty = 0.0;
+    lastz = 0.0;
   }
   //if (frameCount <= 450) {
   //  gifExport.addFrame();
