@@ -1,5 +1,6 @@
-//import gifAnimation.*;
-//GifMaker gifExport;
+import gifAnimation.*;
+GifMaker gifExport;
+
 PImage lightBall;
 float x = 0.0;
 float y = 0.0;
@@ -15,16 +16,18 @@ void setup() {
   blendMode(ADD);
   imageMode(CENTER);
   smooth();
+  frameRate(10);
   //noLoop();
-  lightBall = createLight(random(1), random(2), random(2));
+  lightBall = createLight(random(1), random(2), random(2)); 
+
   //GIF Animation 
-  //gifExport = new GifMaker(this, "rakugaki.gif"); 
-  //gifExport.setRepeat(0); 
-  //gifExport.setQuality(10); 
-  //gifExport.setDelay(80);
+  gifExport = new GifMaker(this, "rakugaki.gif"); 
+  gifExport.setRepeat(0); 
+  gifExport.setQuality(10); 
+  gifExport.setDelay(80);
 }
 
-void draw() {  
+void draw() {
   background(0, 15, 30);
   //原点を画面中心に
   translate(width/2, height/2, 0);
@@ -32,6 +35,7 @@ void draw() {
   rotateX(frameCount * 0.01);
   //z軸を中心に回転
   rotateY(frameCount * 0.01);
+
   //z軸方向に円を配置
   float radius = 200; //半径
   for (int s = 0; s <= 180; s += 10) {
@@ -50,16 +54,19 @@ void draw() {
       x = radius * cos(radianT) * sin(radianS);
       y = radius * sin(radianT)  * sin(radianS);
 
-      //線を描画
-      stroke(0, 128, 128);
-      strokeWeight(sin(radianS)* 4);
       //noStroke();
       if (lastx == 0 && lasty ==0 && lastz == 0 ) {
         lastx = x;
         lasty = y;
         lastz = z;
       } else {
-        line(x, y, z, lastx, lasty, lastz);
+        int i = int(random(0, 5));
+        if (i == 0 || i == 1 || i == 2) {
+          //線を描画
+          stroke(0, random(120, 128), random(120, 128));
+          strokeWeight(1);
+          line(x, y, z, lastx, lasty, lastz);
+        }
         lastx = x;
         lasty = y;
         lastz = z;
@@ -73,26 +80,29 @@ void draw() {
       rotateY(-frameCount*0.01);
       rotateX(-frameCount*0.01);
       // 画像を描画
-      image(lightBall, 0, 0);
+      int i = int(random(0, 5));
+      if (i == 0 || i == 1 || i == 2) {
+        image(lightBall, 0, 0);
+      }
       //保存した座標を再展開
       popMatrix();
     }
-    
+
     //円の最初と最後の発光球体をつなぐ線
-     x = radius * cos(0) * sin(radianS);
-     y = radius * sin(0)  * sin(radianS);
-     line(x, y, z, lastx, lasty, lastz);
+    x = radius * cos(0) * sin(radianS);
+    y = radius * sin(0)  * sin(radianS);
+    //line(x, y, z, lastx, lasty, lastz);
     //初期化
     lastx = 0.0;
     lasty = 0.0;
     lastz = 0.0;
   }
-  //if (frameCount <= 450) {
-  //  gifExport.addFrame();
-  //} else {
-  //  gifExport.finish();
-  //  exit();
-  //}
+  if (frameCount <= 1000) {
+  gifExport.addFrame();
+  } else {
+    gifExport.finish();
+    exit();
+  }
 }
 
 //発光球体画像の生成関数
