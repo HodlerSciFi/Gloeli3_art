@@ -1,30 +1,51 @@
-import gifAnimation.*;
+import gifAnimation.*; //<>// //<>//
 GifMaker gifExport;
 
 PImage lightBall;
-float x = 0.0;
-float y = 0.0;
-float z = 0.0;
-float lastx = 0.0;
-float lasty = 0.0;
-float lastz = 0.0;
+int addZ = 5;
+int addXY = 10;
+int zLength = (180 / addZ) ;
+int xyLength = (360/addXY) * zLength;
+
+float x[] = new float [xyLength];
+float y[] = new float [xyLength];
+float z[] = new float [zLength];
+
+float radius = 200; //半径
 
 void setup() {
   size(500, 500, P3D);
-  // zテストを無効化
+  background(0, 15, 30);
   hint(DISABLE_DEPTH_TEST);
   blendMode(ADD);
   imageMode(CENTER);
   smooth();
-  frameRate(10);
+  //frameRate(1);
   //noLoop();
+
   lightBall = createLight(random(1), random(2), random(2)); 
+  int znum = 0;
+  int xynum = 0;
+  for (int s = 0; s < 180; s += addZ) {
+    float radianS = radians(s);
+    z[znum] = radius * cos(radianS); 
+    for (int t = 0; t < 360; t += addXY) {
+      int r = int(random(0, 5));
+      if (r == 1 || r == 2 || r == 3) {
+        float radianT = radians(t);
+        x[xynum] = radius * cos(radianT) * sin(radianS);
+        y[xynum] = radius * sin(radianT)  * sin(radianS);
+      }
+      xynum += 1;
+    }
+    znum += 1;
+  }
 
   //GIF Animation 
-  gifExport = new GifMaker(this, "rakugaki.gif"); 
-  gifExport.setRepeat(0); 
-  gifExport.setQuality(10); 
-  gifExport.setDelay(80);
+  //gifExport = new GifMaker(this, "rakugaki.gif"); 
+  //gifExport.setRepeat(0); 
+  //gifExport.setQuality(10); 
+  //gifExport.setDelay(180);
 }
 
 void draw() {
@@ -35,74 +56,22 @@ void draw() {
   rotateX(frameCount * 0.01);
   //z軸を中心に回転
   rotateY(frameCount * 0.01);
-
-  //z軸方向に円を配置
-  float radius = 200; //半径
-  for (int s = 0; s <= 180; s += 10) {
-    float radianS = radians(s);
-    //0 <= s <= 180より-1 <= cos(radianS) <= 1
-    //よってzは-radius <= z <= radius
-    z = radius * cos(radianS); //これだけだとz座標上に半径と同じ長さの点をプロットするだけで円筒になる
-    //円状に点を描写(x-y)
-    for (int t = 0; t < 360; t += 10) {
-      //角度をラジアンに
-      float radianT = radians(t);
-      //点の座標を計算
-      //sin(radianS)は0->1->0の順で変化するので
-      //radius * sin(radianS)は0->200->0
-      //はじめのfor文でz軸方向に移動した分、sin(radianS)で補正をかける
-      x = radius * cos(radianT) * sin(radianS);
-      y = radius * sin(radianT)  * sin(radianS);
-
-      //noStroke();
-      if (lastx == 0 && lasty ==0 && lastz == 0 ) {
-        lastx = x;
-        lasty = y;
-        lastz = z;
-      } else {
-        int i = int(random(0, 5));
-        if (i == 0 || i == 1 || i == 2) {
-          //線を描画
-          stroke(0, random(120, 128), random(120, 128));
-          strokeWeight(1);
-          line(x, y, z, lastx, lasty, lastz);
-        }
-        lastx = x;
-        lasty = y;
-        lastz = z;
-      }
-
-      //現在の座標を保存
-      pushMatrix();
-      // 画像の座標へ原点を移動
-      translate(x, y, z);
-      // 画像の向きを元に戻す
-      rotateY(-frameCount*0.01);
-      rotateX(-frameCount*0.01);
-      // 画像を描画
-      int i = int(random(0, 5));
-      if (i == 0 || i == 1 || i == 2) {
-        image(lightBall, 0, 0);
-      }
-      //保存した座標を再展開
-      popMatrix();
+  int jAdd = 0;
+  for (int i = 0; i < z.length; i ++) {
+    if (i != 0) {
+      jAdd += (360/addXY);
     }
-
-    //円の最初と最後の発光球体をつなぐ線
-    x = radius * cos(0) * sin(radianS);
-    y = radius * sin(0)  * sin(radianS);
-    //line(x, y, z, lastx, lasty, lastz);
-    //初期化
-    lastx = 0.0;
-    lasty = 0.0;
-    lastz = 0.0;
+    for (int j = jAdd; j < jAdd + (360/addXY); j++) {
+      stroke(255);
+      point( x[j], y[j], z[i]);
+    }
   }
-  if (frameCount <= 1000) {
-  gifExport.addFrame();
-  } else {
-    gifExport.finish();
-    exit();
-  }
+  //if (frameCount <= 100) {
+  //  gifExport.addFrame();
+  //} else {
+  //  gifExport.finish();
+  //  exit();
+  //}
 }
 
 //発光球体画像の生成関数
