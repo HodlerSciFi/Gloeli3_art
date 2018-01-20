@@ -1,9 +1,9 @@
-import gifAnimation.*; //<>// //<>//
+import gifAnimation.*; //<>// //<>// //<>//
 GifMaker gifExport;
 
 PImage lightBall;
 int addZ = 5;
-int addXY = 10;
+int addXY = 5;
 int zLength = (180 / addZ) ;
 int xyLength = (360/addXY) * zLength;
 
@@ -13,6 +13,9 @@ float z[] = new float [zLength];
 
 float radius = 200; //半径
 
+int zFrame = 1;
+int jAdd = 0;
+
 void setup() {
   size(500, 500, P3D);
   background(0, 15, 30);
@@ -20,7 +23,7 @@ void setup() {
   blendMode(ADD);
   imageMode(CENTER);
   smooth();
-  //frameRate(1);
+  frameRate(20);
   //noLoop();
 
   lightBall = createLight(random(1), random(2), random(2)); 
@@ -31,7 +34,7 @@ void setup() {
     z[znum] = radius * cos(radianS); 
     for (int t = 0; t < 360; t += addXY) {
       int r = int(random(0, 5));
-      if (r == 1 || r == 2 || r == 3) {
+      if (r == 1 || r == 2 || r == 3 || r == 4 ) {
         float radianT = radians(t);
         x[xynum] = radius * cos(radianT) * sin(radianS);
         y[xynum] = radius * sin(radianT)  * sin(radianS);
@@ -59,11 +62,27 @@ void draw() {
   int jAdd = 0;
   for (int i = 0; i < z.length; i ++) {
     if (i != 0) {
-      jAdd += (360/addXY);
+      jAdd += (360/addXY) ;
     }
     for (int j = jAdd; j < jAdd + (360/addXY); j++) {
-      stroke(255);
-      point( x[j], y[j], z[i]);
+      if (x[j] != 0 && y[j] != 0) {
+        //現在の座標を保存
+        pushMatrix();
+        // 画像の座標へ原点を移動
+        translate(x[j], y[j], z[i]);
+        // 画像の向きを元に戻す
+        rotateY(-frameCount*0.01);
+        rotateX(-frameCount*0.01);
+        // 画像を描画
+        //image(lightBall, 0, 0);
+        //保存した座標を再展開
+        popMatrix();      
+        if(x[j-1] != 0 && y[j-1] != 0){
+          stroke(100);
+          strokeWeight(3);
+          line(x[j], y[j], z[i], x[j-1], y[j-1], z[i]);
+        }
+      }
     }
   }
   //if (frameCount <= 100) {
