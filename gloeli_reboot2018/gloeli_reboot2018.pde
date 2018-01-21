@@ -2,7 +2,7 @@ import gifAnimation.*; //<>// //<>// //<>//
 GifMaker gifExport;
 
 PImage lightBall;
-int addZ = 5;
+int addZ = 1;
 int addXY = 5;
 int zLength = (180 / addZ) ;
 int xyLength = (360/addXY) * zLength;
@@ -13,8 +13,10 @@ float z[] = new float [zLength];
 
 float radius = 200; //半径
 
-int zFrame = 1;
-int jAdd = 0;
+int drawZ[] = new int[xyLength];
+float lastX = 0;
+float lastY = 0;
+float lastZ = 0;
 
 void setup() {
   size(500, 500, P3D);
@@ -23,7 +25,7 @@ void setup() {
   blendMode(ADD);
   imageMode(CENTER);
   smooth();
-  frameRate(20);
+  //frameRate(3);
   //noLoop();
 
   lightBall = createLight(random(1), random(2), random(2)); 
@@ -34,10 +36,11 @@ void setup() {
     z[znum] = radius * cos(radianS); 
     for (int t = 0; t < 360; t += addXY) {
       int r = int(random(0, 5));
-      if (r == 1 || r == 2 || r == 3 || r == 4 ) {
+      if (r == 1 || r == 2 || r == 3) {
         float radianT = radians(t);
         x[xynum] = radius * cos(radianT) * sin(radianS);
         y[xynum] = radius * sin(radianT)  * sin(radianS);
+        drawZ[xynum] = znum;
       }
       xynum += 1;
     }
@@ -52,45 +55,63 @@ void setup() {
 }
 
 void draw() {
-  background(0, 15, 30);
+  //background(0, 15, 30);
   //原点を画面中心に
   translate(width/2, height/2, 0);
   //x軸を中心に回転
-  rotateX(frameCount * 0.01);
+  rotateX(PI/2);
   //z軸を中心に回転
-  rotateY(frameCount * 0.01);
-  int jAdd = 0;
-  for (int i = 0; i < z.length; i ++) {
-    if (i != 0) {
-      jAdd += (360/addXY) ;
-    }
-    for (int j = jAdd; j < jAdd + (360/addXY); j++) {
-      if (x[j] != 0 && y[j] != 0) {
-        //現在の座標を保存
-        pushMatrix();
-        // 画像の座標へ原点を移動
-        translate(x[j], y[j], z[i]);
-        // 画像の向きを元に戻す
-        rotateY(-frameCount*0.01);
-        rotateX(-frameCount*0.01);
-        // 画像を描画
-        //image(lightBall, 0, 0);
-        //保存した座標を再展開
-        popMatrix();      
-        if(x[j-1] != 0 && y[j-1] != 0){
-          stroke(100);
-          strokeWeight(3);
-          line(x[j], y[j], z[i], x[j-1], y[j-1], z[i]);
-        }
+  rotateZ(PI);
+
+
+  //strokeWeight(3);
+
+  int randxy = int(random(0, x.length));
+  if (randxy > 1  && randxy < x.length - 1 
+    && x[randxy] != 0 && y[randxy] != 0   ) {
+    stroke(#6070F5, 80);
+    strokeWeight(0.5);
+    while (x[randxy + 1] != 0 && y[randxy + 1] != 0 ) {
+      line(lastX, lastY, lastZ, x[randxy], y[randxy], z[drawZ[randxy]]);
+      stroke(#6070F5, 80);
+      strokeWeight(0.5);
+      line(x[randxy], y[randxy], z[drawZ[randxy]], 
+        x[randxy + 1], y[randxy + 1], z[drawZ[randxy]]);
+      lastX = x[randxy + 1 ];
+      lastY = y[randxy + 1];
+      lastZ = z[drawZ[randxy + 1]];
+      randxy ++;
+      if (randxy >= x.length - 1) {
+        lastX = x[randxy ];
+        lastY = y[randxy];
+        lastZ = z[drawZ[randxy]];
+        break;
       }
     }
   }
+
+  ////現在の座標を保存
+  //pushMatrix();
+  //// 画像の座標へ原点を移動
+  //translate(x[j], y[j], z[i]);
+  //// 画像の向きを元に戻す
+  //rotateY(-frameCount*0.01);
+  //rotateX(-frameCount*0.01);
+  //// 画像を描画
+  //image(lightBall, 0, 0);
+  ////保存した座標を再展開
+  //popMatrix();
+
   //if (frameCount <= 100) {
   //  gifExport.addFrame();
   //} else {
   //  gifExport.finish();
   //  exit();
   //}
+}
+
+void mouseClicked() {
+  save("rakugaki.png");
 }
 
 //発光球体画像の生成関数
