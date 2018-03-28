@@ -1,17 +1,23 @@
-PImage img;
-PFont font;
-
-Walker[] walkers;
-int wCount;
 import gifAnimation.*;
 GifMaker gifExport;
+PImage img;
+PFont font;
+ float randSeedX = 0;
+ float randSeedY = 0;
 
 void setup(){
  size(500, 500);
  background(0);
  smooth(0);
  //blendMode(ADD);
+ //blendMode(ADD);
  //frameRate(1);
+ 
+   //GIF Animation 
+  gifExport = new GifMaker(this, "gloeli_3_3.gif"); 
+  gifExport.setRepeat(0); 
+  gifExport.setQuality(10); 
+  gifExport.setDelay(80); 
  
  img = loadImage("mark_01.png");
  imageMode(CENTER);
@@ -21,20 +27,24 @@ void setup(){
  title();
  //キャンパス再読み込み
  loadPixels();
- 
-  wCount = 10;
-  walkers = new Walker[wCount];
-  for(int i = 0; i < wCount; i++){
-    walkers[i] = new Walker();
-  }
+  randSeedX = random(0, 1000);
+  randSeedY = random(2000, 4000);
   
 }
 
 void draw(){
-  //breakMark();
-  for(int i = 0; i < wCount; i++){
-    walkers[i].step(); 
-    walkers[i].display();
+  int i = 0;
+  while(i < 10){
+    breakMark(randSeedX, randSeedY);
+    i++;
+    randSeedX += random(0, 100);
+    randSeedY += random(200, 300);
+  }
+  if(frameCount <= 900){
+    gifExport.addFrame();
+  }else{
+    gifExport.finish();
+    exit();
   }
 }
 
@@ -59,63 +69,47 @@ void loadMark(){
 }
 
 //画像崩し
-void breakMark(){
-  loadPixels();
-  int x = int(random(width));
-  int y = int(random(height));
-  int loc = x + y*width;
-  float r = red(pixels[loc]);
-  float g = green(pixels[loc]);
-  float b = blue(pixels[loc]);
-  noStroke();
-  fill(r, g, b);
-  ellipse(x, y, 10, 10);
+void breakMark(float _randSeedX, float _randSeedY){
+    loadPixels();
+    float randSeedX = _randSeedX;
+    float randSeedY = _randSeedY;
+    float randValueX = noise(randSeedX);
+    float randValueY = noise(randSeedY);
+    int x = int(map(randValueX, 0, 1, 0, width));
+    int y = int(map(randValueY, 0, 1, 0, height));
+    int loc = x + y*width;
+    float r = red(pixels[loc]);
+    float g = green(pixels[loc]);
+    float b = blue(pixels[loc]);
+    if(r != 0){
+      noStroke();
+      fill(r -random(-20, 20), g + 15, b - 10);
+      println(g);
+      float size = random(10);
+      ellipse(x, y, size, size);
+    }else{
+      randSeedX = random(5000, 9000);
+      randSeedY = random(10000, 15000);
+      breakMark(randSeedX, randSeedY);
+    }
   //updatePixels();
 }
 //タイトル挿入
 void title(){
-  font = createFont("logotypejp_mp_b_1.1.ttf", 180);
+  font = createFont("logotypejp_mp_b_1.1.ttf", 40);
   textFont(font);
   textAlign(CENTER);
   fill(#670303);
-  text("3", width/2 +100, height/2 + 60);
+  text("Global", width/2 -50, height/2 - 100);
+  text("Elite", width/2 - 40, height/2 - 50);
+  
+  font = createFont("logotypejp_mp_b_1.1.ttf", 160);
+  textFont(font);
+  textAlign(CENTER);
+  fill(#670303);
+  text("3", width/2 +100, height/2 + 80);
 }
 
 void mouseClicked(){
  save("laborM_02.png");
-}
-
-class Walker{
-  int x, y;
-  float tx, ty;
-  color c;
-  int loc;
-  float r, g, b;
-  
-  
-  Walker(){
-   tx = random(0, 1000);
-   ty = random(10000, 20000);
-   x =  int(random(width));
-   y =  int(random(height));
-   loc = x + y*width;
-   r = red(pixels[loc]);
-   g = green(pixels[loc]);
-   b = blue(pixels[loc]);
-   c = color(r, g, b);
-  }
-  
-  void display(){
-   noStroke();
-   fill(c);
-   ellipse(x, y, 3, 3); 
-  }
-  
-  void step(){
-    x = int(map(noise(tx), 0, 1, 0, width));
-    y = int(map(noise(ty), 0, 1, 0, height));
-    
-    tx += 0.01;
-    ty += 0.01;
-  }
 }
