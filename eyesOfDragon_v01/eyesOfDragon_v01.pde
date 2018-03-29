@@ -7,7 +7,7 @@ void setup(){
   bodyLine(i, width/2, height/2);
   }
   title();
-  save("eyesOfDragon_1.png");
+  save("eyesOfDragon_2.png");
 }
 
 
@@ -64,6 +64,6 @@ void title(){
   text("龍の瞳に潜る", width/2, height/2);
   font = createFont("OradanoGSRR.ttf", 24);
   textFont(font);
-  fill(#012C24);
+  fill(#024B3E);
   text("維嶋津", width/2, height/2 + 50);
 }
