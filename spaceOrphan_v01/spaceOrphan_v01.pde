@@ -1,3 +1,4 @@
+  PFont font;
   int x, y;
   int preX = 0;
   int preY = 0;
@@ -39,7 +40,29 @@ void draw(){
   }
   
   if(frameCount > 100){
+    title();
     save("spaceOrphan_1.png");
     exit();
   }
+}
+
+//タイトル挿入
+void title(){
+  //font = createFont("OradanoGSRR.ttf", 40);
+  font = createFont("logotypejp_mp_b_1.1.ttf", 40);
+  textFont(font);
+  textAlign(CENTER);
+  fill(#E0A5AE);
+  text("宇", width/2 -50, height/2 - 80);
+  text("宙", width/2 - 50, height/2 - 30);
+  text("独", width/2 - 50, height/2 +20);
+  text("生", width/2 - 50, height/2 +70);
+  text("子", width/2 - 50, height/2 +120);
+  text("女", width/2 - 50, height/2 +170);
+  
+  //font = createFont("logotypejp_mp_b_1.1.ttf", 160);
+  //textFont(font);
+  //textAlign(CENTER);
+  //fill(#670303);
+  //text("3", width/2 +100, height/2 + 80);
 }
