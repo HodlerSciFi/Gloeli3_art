@@ -7,15 +7,20 @@ void setup(){
   background(0);
   smooth();
   noStroke();
-  fill(#D0CEE3);
-  ellipse(-20, height, 1200, 1010);
+  fill(#626783);
+  ellipse(-20, height, 800, 1010);
   fill(0);
-  ellipse(-20, height, 800, 950);
+  ellipse(-20, height, 300, 950);
 }
 
 void draw(){
-  loadPixels();
   x = int(random(width));
+  y = int(random(height));
+  stroke(255);
+  fill(0);
+  ellipse(x, y, 1, 1);
+  loadPixels();
+  x = int(random(width/2-200, width/2 + 100));
   y = int(random(height));
   if(preX == 0 && preY == 0){
     preX = x;
@@ -27,21 +32,26 @@ void draw(){
      float b = blue(pixels[loc]); 
      if(r == 0 && g == 0 && b == 0){
        fill(#E2E3CE);
-       stroke(#E2E3CE);
+       //stroke(#E2E3CE);
+       stroke(#E8E273);
        line(preX, preY, x, y);
        ellipse(x, y, 3, 3);
+       //preX = x;
+       //preY =y;
      }else{
         noStroke();
         fill(#E0A5AE);
         stroke(#E0A5AE);
         line(preX, preY, x, y);
         ellipse(x, y, 3, 3);
+        //preX = x;
+        //preY =y;
      }
   }
   
   if(frameCount > 100){
     title();
-    save("spaceOrphan_1.png");
+    save("spaceOrphan_2.png");
     exit();
   }
 }
@@ -53,16 +63,18 @@ void title(){
   textFont(font);
   textAlign(CENTER);
   fill(#E0A5AE);
-  text("宇", width/2 -50, height/2 - 80);
-  text("宙", width/2 - 50, height/2 - 30);
-  text("独", width/2 - 50, height/2 +20);
-  text("生", width/2 - 50, height/2 +70);
-  text("子", width/2 - 50, height/2 +120);
-  text("女", width/2 - 50, height/2 +170);
+  text("宇", width/2  +200, height/2 - 150);
+  text("宙", width/2 + 200, height/2 - 100);
+  text("独", width/2 + 200, height/2 - 50);
+  text("生", width/2 + 200, height/2 );
+  text("子", width/2 + 200, height/2 + 50);
+  text("女", width/2 + 200, height/2 +100);
   
-  //font = createFont("logotypejp_mp_b_1.1.ttf", 160);
-  //textFont(font);
-  //textAlign(CENTER);
-  //fill(#670303);
-  //text("3", width/2 +100, height/2 + 80);
+  font = createFont("logotypejp_mp_b_1.1.ttf", 30);
+  textFont(font);
+  textAlign(CENTER);
+  fill(#E0A5AE);
+  text("髙", width/2  +150, height/2 + 40);
+  text("座", width/2 + 150, height/2 + 80);
+  text("創", width/2 + 150, height/2 + 120);
 }
