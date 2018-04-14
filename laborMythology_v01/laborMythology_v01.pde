@@ -1,51 +1,124 @@
-import gifAnimation.*;
-GifMaker gifExport;
-PImage img;
+PImage img1, img2;
 PFont font;
- float randSeedX = 0;
- float randSeedY = 0;
 
 void setup(){
- size(500, 500);
+ //ePub版:横116mm, 縦185mm, 350px換算のサイズ
+  //size(1599, 2550);
+  //紙版:横111mm, 縦154mm, 350px換算のサイズ
+  size(1530, 2123);
+  //size(500, 500);
+  //横266mm, 縦191mm, 600px換算のサイズ
+  //size(4512, 6284);
  background(0);
  smooth(0);
- //blendMode(ADD);
- //blendMode(ADD);
- //frameRate(1);
  
-   //GIF Animation 
-  gifExport = new GifMaker(this, "gloeli_3_3.gif"); 
-  gifExport.setRepeat(0); 
-  gifExport.setQuality(10); 
-  gifExport.setDelay(80); 
  
- img = loadImage("mark_01.png");
+ img1 = loadImage("mark_01.png");
  imageMode(CENTER);
- image(img, width/2, height/2);
+ image(img1, width/2, height/2 - 400, 1200, 1200);
 
  loadMark();
- title();
  //キャンパス再読み込み
  loadPixels();
-  randSeedX = random(0, 1000);
-  randSeedY = random(2000, 4000);
-  
+ save("base.png");
+ 
+background(0);
+img2 = loadImage("base.png");
+//image(img2, width/2, height/2);
+  for(int i=0; i< img2.height; i+=25){
+       for(int j=0; j< img2.width; j+=25){
+         color c = img2.get(i, j);
+         int fillC ; 
+           if(c == -1){
+             int messageNum = int(random(0, 6));
+             switch(messageNum){
+               case 1:
+                 textAlign(CENTER);
+                 textSize(random(28, 50));
+                 fillC = int(random(0, 7)); 
+                 if( fillC > 1){
+                    fill(255);
+                 }else{
+                 fill(#FC0808);
+                 }
+                 text("Error: ", i, j);
+                 break;
+               case 2:
+                 textAlign(CENTER);
+                 textSize(random(28, 50));
+                 fillC = int(random(0, 7)); 
+                 if( fillC > 1){
+                    fill(255);
+                 }else{
+                 fill(#FC0808);
+                 }
+                 text("login ", i, j);
+                 break;
+             case 3:
+                 textAlign(CENTER);
+                 textSize(random(28, 50));
+                 fillC = int(random(0, 7)); 
+                 if( fillC > 1){
+                    fill(255);
+                 }else{
+                 fill(#FC0808);
+                 }
+                 text("please ", i, j);
+                 break;
+               case 4:
+                 textAlign(CENTER);
+                 textSize(random(28, 50));
+                 fillC = int(random(0, 7)); 
+                 if( fillC > 1){
+                    fill(255);
+                 }else{
+                 fill(#FC0808);
+                 }
+                 text("contact", i, j);
+                 break;
+               case 5:
+                 textAlign(CENTER);
+                 textSize(random(28, 50));
+                 fillC = int(random(0, 7)); 
+                 if( fillC > 1){
+                    fill(255);
+                 }else{
+                 fill(#FC0808);
+                 }
+                 text("Admin", i, j);
+                 break;
+               default:
+                 textAlign(CENTER);
+                 textSize(random(28, 50));
+                  fillC = int(random(0, 7)); 
+                 if( fillC > 1){
+                    fill(255);
+                 }else{
+                 fill(#FC0808);
+                 }
+                 text("role", i, j);
+                 break;
+             }
+               
+             
+           }
+         }
+       }
 }
 
 void draw(){
-  int i = 0;
-  while(i < 10){
-    breakMark(randSeedX, randSeedY);
-    i++;
-    randSeedX += random(0, 100);
-    randSeedY += random(200, 300);
-  }
-  if(frameCount <= 900){
-    gifExport.addFrame();
-  }else{
-    gifExport.finish();
+  
+  //for(int i = 0; i <=80; i ++){
+  //stroke(255);
+  //strokeWeight(random(2, 10));
+  //float x1 = random(700, 750);
+  //float x2 = random(770, 810);
+  //float y = random(400, 1500);
+  //line(x1, y, x2, y);
+  //}
+    title();
+    save("sprintNight_paper_1.png");
     exit();
-  }
 }
 
 //画像を白黒変換
@@ -68,48 +141,19 @@ void loadMark(){
  updatePixels();
 }
 
-//画像崩し
-void breakMark(float _randSeedX, float _randSeedY){
-    loadPixels();
-    float randSeedX = _randSeedX;
-    float randSeedY = _randSeedY;
-    float randValueX = noise(randSeedX);
-    float randValueY = noise(randSeedY);
-    int x = int(map(randValueX, 0, 1, 0, width));
-    int y = int(map(randValueY, 0, 1, 0, height));
-    int loc = x + y*width;
-    float r = red(pixels[loc]);
-    float g = green(pixels[loc]);
-    float b = blue(pixels[loc]);
-    if(r != 0){
-      noStroke();
-      fill(r -random(-20, 20), g + 15, b - 10);
-      println(g);
-      float size = random(10);
-      ellipse(x, y, size, size);
-    }else{
-      randSeedX = random(5000, 9000);
-      randSeedY = random(10000, 15000);
-      breakMark(randSeedX, randSeedY);
-    }
-  //updatePixels();
-}
 //タイトル挿入
 void title(){
-  font = createFont("logotypejp_mp_b_1.1.ttf", 40);
+  font = createFont("OradanoGSRR.ttf", 80);
   textFont(font);
   textAlign(CENTER);
-  fill(#670303);
-  text("Global", width/2 -50, height/2 - 100);
-  text("Elite", width/2 - 40, height/2 - 50);
+  //fill(#E0A5AE);
+  fill(255);
+  text("この疾走する夜を駆けろ！", width/2 + 200, height/2 + 550);
   
-  font = createFont("logotypejp_mp_b_1.1.ttf", 160);
+  font = createFont("OradanoGSRR.ttf", 70);
   textFont(font);
   textAlign(CENTER);
-  fill(#670303);
-  text("3", width/2 +100, height/2 + 80);
-}
-
-void mouseClicked(){
- save("laborM_02.png");
+  //fill(#E0A5AE);
+  fill(255);
+  text("東京ニトロ", width/2  + 200, height/2 + 750);
 }
