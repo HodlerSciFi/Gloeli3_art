@@ -1,13 +1,20 @@
 PFont font;
 void setup(){
-  size(500, 500);
+ //ePub版:横116mm, 縦185mm, 350px換算のサイズ
+  //size(1599, 2550);
+  //紙版:横111mm, 縦154mm, 350px換算のサイズ
+  size(1530, 2123);
+  //size(500, 500);
+  //横266mm, 縦191mm, 600px換算のサイズ
+  //size(4512, 6284);
   background(0);
   smooth();
-  for(float i = 170; i < 220; i+= 5){
+  for(float i = 450; i < 600; i+= 5){
   bodyLine(i, width/2, height/2);
   }
   title();
-  save("eyesOfDragon_2.png");
+  save("dragonSacle_paper_1.png");
+  exit();
 }
 
 
@@ -28,23 +35,25 @@ void bodyLine(float _radius, float _centX, float _centY){
     randY = centY + rand(random(0, 100), -10, 10);
     x = randX + radius * cos(rad);
     y = randY + radius * sin(rad);
-    
-    angle += 1;
-    //stroke(255);
-    //line(preX, preY, x, y);
-    //stroke(#740109);
+    angle += 2;
     eyeFlag = random(0, 3);
+    //眼
     if(eyeFlag > 2.0){
-      stroke(#740109);
-      fill(#740109);
-      ellipse(x, y, 19, 18);
-      angle += 1;      
+      //stroke(#740109);
+      //fill(#740109);
+      stroke(0);
+      fill(0);
+      ellipse(x, y, 40, 39);
+      angle += 2;      
     }
     else{
-      stroke(255);
-      fill(#012C24);
-      ellipse(x, y, 19, 18);
-      angle += 1;
+      //うろこ
+      stroke(0);
+      strokeWeight(6);
+      //fill(#012C24);
+      fill(255);
+      ellipse(x, y, 40, 39);
+      angle += 2;
     }
   }
 }
@@ -57,13 +66,15 @@ float rand(float seed, float lLimit, float uLimit){
 
 //タイトル挿入
 void title(){
-  font = createFont("OradanoGSRR.ttf", 30);
+  font = createFont("OradanoGSRR.ttf", 80);
   textFont(font);
   textAlign(CENTER);
-  fill(#740109);
-  text("龍の瞳に潜る", width/2, height/2);
-  font = createFont("OradanoGSRR.ttf", 24);
+  //fill(#740109);
+  fill(255);
+  text("鱗の檻、扉のむこう", width/2, height/2);
+  font = createFont("OradanoGSRR.ttf", 70);
   textFont(font);
-  fill(#024B3E);
-  text("維嶋津", width/2, height/2 + 50);
+  //fill(#024B3E);
+  fill(255);
+  text("維嶋津", width/2, height/2 + 150);
 }
