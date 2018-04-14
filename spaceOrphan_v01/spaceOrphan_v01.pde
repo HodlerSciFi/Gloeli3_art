@@ -29,7 +29,7 @@ void draw(){
   fill(0);
   ellipse(x, y, 1, 1);
   loadPixels();
-  x = int(random(width/2-200, width/2 + 100));
+  x = int(random(width/2-100, width/2 + 200));
   y = int(random(height));
   if(preX == 0 && preY == 0){
     preX = x;
@@ -64,8 +64,8 @@ void draw(){
   }
   
   if(frameCount > 100){
-    title();
-    save("earthOrphan_paper_5.png");
+    //title();
+    save("earthOrphan_paper_noTilte.png");
     exit();
   }
 }

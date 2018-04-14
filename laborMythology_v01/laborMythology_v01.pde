@@ -15,7 +15,7 @@ void setup(){
  
  img1 = loadImage("mark_01.png");
  imageMode(CENTER);
- image(img1, width/2, height/2 - 400, 1200, 1200);
+ image(img1, width/2, height/2 - 500, 1100, 1100);
 
  loadMark();
  //キャンパス再読み込み
@@ -120,8 +120,8 @@ void draw(){
   //float y = random(400, 1500);
   //line(x1, y, x2, y);
   //}
-    title();
-    save("sprintNight_paper_2.png");
+    //title();
+    save("sprintNight_paper_noTitle.png");
     exit();
 }
 

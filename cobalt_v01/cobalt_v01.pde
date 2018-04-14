@@ -67,8 +67,8 @@ void draw(){
     stroke(255);
     strokeWeight(10);
     rect(pictureX, pictureY, pictureW, pictureH);
-    title();
-    save("cobalt_paperCover_01.png");
+    //title();
+    save("cobalt_paperCover_01_noTitle.png");
     exit();
   }
 }
