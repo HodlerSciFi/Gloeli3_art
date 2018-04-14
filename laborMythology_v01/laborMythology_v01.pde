@@ -39,7 +39,8 @@ img2 = loadImage("base.png");
                  if( fillC > 1){
                     fill(255);
                  }else{
-                 fill(#FC0808);
+                 //fill(#FC0808);
+                 fill(255);
                  }
                  text("Error: ", i, j);
                  break;
@@ -50,7 +51,8 @@ img2 = loadImage("base.png");
                  if( fillC > 1){
                     fill(255);
                  }else{
-                 fill(#FC0808);
+                 //fill(#FC0808);
+                 fill(255);
                  }
                  text("login ", i, j);
                  break;
@@ -61,7 +63,8 @@ img2 = loadImage("base.png");
                  if( fillC > 1){
                     fill(255);
                  }else{
-                 fill(#FC0808);
+                 //fill(#FC0808);
+                 fill(255);
                  }
                  text("please ", i, j);
                  break;
@@ -72,7 +75,8 @@ img2 = loadImage("base.png");
                  if( fillC > 1){
                     fill(255);
                  }else{
-                 fill(#FC0808);
+                 //fill(#FC0808);
+                 fill(255);
                  }
                  text("contact", i, j);
                  break;
@@ -83,7 +87,8 @@ img2 = loadImage("base.png");
                  if( fillC > 1){
                     fill(255);
                  }else{
-                 fill(#FC0808);
+                 //fill(#FC0808);
+                 fill(255);
                  }
                  text("Admin", i, j);
                  break;
@@ -94,13 +99,12 @@ img2 = loadImage("base.png");
                  if( fillC > 1){
                     fill(255);
                  }else{
-                 fill(#FC0808);
+                 //fill(#FC0808);
+                 fill(255);
                  }
                  text("role", i, j);
                  break;
-             }
-               
-             
+             }          
            }
          }
        }
@@ -117,7 +121,7 @@ void draw(){
   //line(x1, y, x2, y);
   //}
     title();
-    save("sprintNight_paper_1.png");
+    save("sprintNight_paper_2.png");
     exit();
 }
 
