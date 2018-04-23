@@ -9,11 +9,11 @@ void setup(){
   //size(4512, 6284);
   background(0);
   smooth();
-  for(float i = 350; i < 600; i+= 5){
-  bodyLine(i, width/2, height/2 - 400);
+  for(float i = 550; i < 900; i+= 5){
+  bodyLine(i, 300, height/2);
   }
   //title();
-  save("dragonSacle_paper_1_noTitle.png");
+  save("dragonSacle_paper_1_noTitle_2.png");
   exit();
 }
 

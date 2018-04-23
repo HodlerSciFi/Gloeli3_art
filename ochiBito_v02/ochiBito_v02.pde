@@ -8,7 +8,7 @@ void setup(){
   //size(500, 500);
   //横266mm, 縦191mm, 600px換算のサイズ
   //size(4512, 6284);
- background(0);
+ background(0, 0);
  //smooth(0);
 img1 = loadImage("redraw_dolphine_2.png");
 imageMode(CENTER);
@@ -21,7 +21,7 @@ imageMode(CENTER);
          c = color(#430511);
        }else{
          //c = color(#03FAEB);
-         c = color(#FFFFFF);
+         c = color(255, 255, 255,0);
        }
        set(j, i, c);
      }
@@ -41,7 +41,7 @@ imageMode(CENTER);
    }
  }
  //title();
- save("ochiBit_cover_mono.png");
+ save("ochiBit_cover_mono_2.png");
  exit();
 }
 

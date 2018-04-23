@@ -13,7 +13,7 @@ void setup(){
  //smooth(0);
 img1 = loadImage("redraw_dolphine_2.png");
 imageMode(CENTER);
- image(img1, width/2,  height/2 + 300 , width, height);
+ image(img1, width/2,  height/2 + 100 , width, height);
    color c = color(255);
    for(int i=0; i < height; i +=1){
      for(int j=0; j <width; j +=1){
@@ -43,7 +43,7 @@ imageMode(CENTER);
  }
  //title();
  //title();
- save("ochiBit_cover_mono_noTilte.png");
+ save("ochiBit_cover_mono_noTilte_2.png");
  exit();
 }
 

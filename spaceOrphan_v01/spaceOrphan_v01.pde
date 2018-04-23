@@ -17,9 +17,9 @@ void setup(){
   stroke(255);
   strokeWeight(4);
   fill(0);
-  ellipse(-20, height, 3000, 3010);
+  ellipse(-20, height, 3200, 3010);
   fill(0);
-  ellipse(-20, height, 1600, 2850);
+  ellipse(-20, height, 2000, 2850);
 }
 
 void draw(){
@@ -65,7 +65,7 @@ void draw(){
   
   if(frameCount > 100){
     //title();
-    save("earthOrphan_paper_noTilte.png");
+    save("earthOrphan_paper_noTilte_2.png");
     exit();
   }
 }

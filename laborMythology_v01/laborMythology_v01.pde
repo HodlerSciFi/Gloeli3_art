@@ -15,7 +15,9 @@ void setup(){
  
  img1 = loadImage("mark_01.png");
  imageMode(CENTER);
- image(img1, width/2, height/2 - 500, 1100, 1100);
+ image(img1, width/2, height/2 - 900, 1600, 1600);
+ 
+
 
  loadMark();
  //キャンパス再読み込み
@@ -25,8 +27,8 @@ void setup(){
 background(0);
 img2 = loadImage("base.png");
 //image(img2, width/2, height/2);
-  for(int i=0; i< img2.height; i+=25){
-       for(int j=0; j< img2.width; j+=25){
+  for(int i=0; i< img2.height; i+=20){
+       for(int j=0; j< img2.width; j+=20){
          color c = img2.get(i, j);
          int fillC ; 
            if(c == -1){
@@ -121,7 +123,7 @@ void draw(){
   //line(x1, y, x2, y);
   //}
     //title();
-    save("sprintNight_paper_noTitle.png");
+    save("sprintNight_paper_noTitle_3.png");
     exit();
 }
 
